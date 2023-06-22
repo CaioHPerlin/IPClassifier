@@ -2,7 +2,10 @@ const form = document.getElementById("ip_form");
 const output = document.getElementsByTagName("code")[0];
 const clearBtn = document.getElementById("clear_btn");
 
-const toBin = (n) => (n >>> 0).toString(2);
+const toBin = (n) => {
+    const bin = (n >>> 0).toString(2);
+    return ("000000000"+bin).slice(-8);
+}
 
 form.addEventListener("submit", (e) => {
     e.preventDefault()
@@ -12,7 +15,7 @@ form.addEventListener("submit", (e) => {
     let cat = "";
     let mask = "";
     let scope = "Público";
-    if(arr.length != 4 || arr[0] > 223 || arr[0] == 0){
+    if(arr.length != 4 || arr[0] > 223 || arr[0] < 1){
         alert(`Formatação de input incorreta.\nEntrada recebida: ${input}\nFormato esperado: 223.255.255.255`);
         return;
     }
@@ -32,9 +35,9 @@ form.addEventListener("submit", (e) => {
     }
 
 
-    let bin = toBin(arr[0]) + toBin(arr[1]) + toBin(arr[2]) + toBin(arr[3]);
+    let binary = toBin(arr[0]) + toBin(arr[1]) + toBin(arr[2]) + toBin(arr[3]);
 
-    var result = document.createTextNode(`\nIPV4: ${input}\nClasse: ${cat}\nMáscara padrão: ${mask}\nEndereço ${scope}\nBinário: ${bin}\n`);
+    var result = document.createTextNode(`\nIPV4: ${input}\nClasse: ${cat}\nMáscara padrão: ${mask}\nEndereço ${scope}\nBinário: ${binary}\n`);
     output.appendChild(result);
     form.reset();
 });
